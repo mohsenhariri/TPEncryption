@@ -1,6 +1,7 @@
-let TPEncryption = require("./tpencryption");
-let async = require("async");
-let fs = require('fs');
+import TPEncryption from "./tpencryption.js"
+
+import async from 'async'
+import fs from 'fs'
 
 const IMGS_PATH = "./imgs";
 const NUMBER_OF_ITERATION = 1;

@@ -1,6 +1,5 @@
-let jimp = require("jimp");
-let AesRndNumGen = require("./aes-rnd");
-let fs = require("fs");
+import AesRndNumGen from './aes-rnd.js'
+import jimp from 'jimp'
 
 let TPEncryption = function TPEncryption (imgPath, key, callback){
     let that = this;
@@ -113,4 +112,5 @@ TPEncryption.prototype.encrypt = function(num_of_iter, block_size, result_file_p
     callback(timeOfEnd - timeOfStart);
 };
 
-module.exports = TPEncryption;
+
+export default TPEncryption

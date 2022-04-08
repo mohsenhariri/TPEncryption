@@ -1,4 +1,4 @@
-let crypto = require('crypto');
+import crypto from 'crypto'
 const ALGORITHM = "aes-256-ctr";
 
 let AesRndNumGen = function AesRndNumGen(key, totalNeed) {
@@ -59,5 +59,6 @@ AesRndNumGen.prototype.getNewPermutation = function getNewPermutation(block_size
     return indices;
 };
 
-module.exports = AesRndNumGen;
+
+export default AesRndNumGen
 
