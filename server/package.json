@@ -1,9 +1,9 @@
 {
-  "name": "tpencryption",
+  "name": "tpencryption-server",
   "version": "1.0.0",
   "description": "Balancing Image Privacy and Usability",
   "type": "module",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,9 +17,9 @@
   "bugs": {
     "url": "https://github.com/mohsenhariri/TPEncryption/issues"
   },
-  "homepage": "https://github.com/mohsenhariri/TPEncryption#readme",
   "dependencies": {
     "async": "^3.2.3",
     "jimp": "^0.16.1"
-  }
+  },
+  "devDependencies": {}
 }
