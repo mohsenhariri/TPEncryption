@@ -1,41 +1,84 @@
-import TPEncryption from "./tpencryption.js"
+import TPEncryption from "./tpencryption.js";
 
-import async from 'async'
-import fs from 'fs'
+import filter from "async/filter.js";
+
+import fsp from "fs/promises";
 
 const IMGS_PATH = "./imgs";
+const ENCRYPTED_IMGS_PATH = IMGS_PATH + "/encrypted";
+
 const NUMBER_OF_ITERATION = 1;
 const BLOCK_SIZE = 50;
 const KEY = "DpdZPaQ[lkF";
 
-function start(){
-
-const ENCRYPTED_IMGS_PATH = IMGS_PATH + "/encrypted";
-if (!fs.existsSync(ENCRYPTED_IMGS_PATH)){
-    fs.mkdirSync(ENCRYPTED_IMGS_PATH);
+async function dirValidate() {
+  try {
+    try {
+      await fsp.stat(ENCRYPTED_IMGS_PATH);
+    } catch (err) {
+      await fsp.mkdir(ENCRYPTED_IMGS_PATH);
+    }
+  } catch (err) {
+    console.log("err");
+  }
 }
 
-fs.readdir(IMGS_PATH, (err, files) => {
+async function start() {
+  try {
     let counter = 1;
+    await dirValidate();
+    const files = await fsp.readdir(IMGS_PATH, { withFileTypes: true });
 
-    async.filter(files, function(file, callback) {
-        let file_path = `${IMGS_PATH}/${file}`;
-        let result_file_path = `${ENCRYPTED_IMGS_PATH}/${file}`;
-        let t = new TPEncryption(file_path, KEY, function (err) {
-            if (!err) {
-                console.log(`image #${counter} => ${file_path}`);
-                t.encrypt(NUMBER_OF_ITERATION, BLOCK_SIZE, result_file_path, function (time) {
-                    counter += 1;
-                    console.log(`encrypted in ${time} ms.\n`);
-                    callback();
-                });
+    //    const dd = files.filter(s=>s.isFile()).map(e=>e.name)
+
+    // files.forEach((file) => {
+    //   let file_path = `${IMGS_PATH}/${file}`;
+    //   let result_file_path = `${ENCRYPTED_IMGS_PATH}/${file}`;
+
+    //   let t = new TPEncryption(file_path, KEY, function (err) {
+    //     if (!err) {
+    //       console.log(`image #${counter} => ${file_path}`);
+    //       t.encrypt(
+    //         NUMBER_OF_ITERATION,
+    //         BLOCK_SIZE,
+    //         result_file_path,
+    //         function (time) {
+    //           counter += 1;
+    //           console.log(`encrypted in ${time} ms.\n`);
+    //           //   callback();
+    //         }
+    //       );
+    //     }
+    //   });
+    // });
+
+    // console.log(files)
+
+    filter(files, function (file, callback) {
+      if (!file.isFile()) return;
+
+      const fileName = file.name;
+      let file_path = `${IMGS_PATH}/${fileName}`;
+      let result_file_path = `${ENCRYPTED_IMGS_PATH}/${fileName}`;
+      let t = new TPEncryption(file_path, KEY, function (err) {
+        if (err) console.log(err);
+        if (!err) {
+          console.log(`image #${counter} => ${file_path}`);
+          t.encrypt(
+            NUMBER_OF_ITERATION,
+            BLOCK_SIZE,
+            result_file_path,
+            function (time) {
+              counter += 1;
+              console.log(`encrypted in ${time} ms.\n`);
             }
-        });
-    }, function(err, results) {
-        // results now equals an array of the existing files
+          );
+        }
+      });
     });
-});
-
+  } catch (err) {
+    console.log("Err in start");
+  }
 }
 
-export default start
+export default start;

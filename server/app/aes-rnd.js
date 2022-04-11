@@ -1,12 +1,16 @@
 import crypto from 'crypto'
 const ALGORITHM = "aes-256-ctr";
 
+const key2 = crypto.randomBytes(32);
+
+const iv = crypto.randomBytes(16);
+
 let AesRndNumGen = function AesRndNumGen(key, totalNeed) {
     let that = this;
     that.ctr = 0;
     that.data = [];
 
-    let cipher = crypto.createCipher(ALGORITHM, key);
+    let cipher = crypto.createCipheriv(ALGORITHM, key2,iv);
     that.data = new Uint8Array(Buffer.concat([cipher.update(new Uint8Array(totalNeed)),cipher.final()]));
 };
 

@@ -1,7 +1,7 @@
 import AesRndNumGen from './aes-rnd.js'
 import jimp from 'jimp'
 
-let TPEncryption = function TPEncryption (imgPath, key, callback){
+let TPEncryption = function (imgPath, key, callback){
     let that = this;
     this.key = key;
     that.mat_r = [];
@@ -21,6 +21,8 @@ let TPEncryption = function TPEncryption (imgPath, key, callback){
         that.w = image.bitmap.width;
         that.h = image.bitmap.height;
         that.data = image.bitmap.data;
+        // const imageBitmapPromise = createImageBitmap(image);
+
         callback();
     });
 };
