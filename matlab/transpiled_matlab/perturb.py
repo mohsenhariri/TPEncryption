@@ -56,8 +56,8 @@ def perturb(target, source, block_width):
             block_index_bytes = block_index_bytes[0:block_index_length, :]
             block_index_bytes = [block_index_bytes, block_index_bytes, block_index_bytes]
             
-            block_metadata = (block_index_bytes, block_metadata)
-            metadata = (metadata, block_metadata)
+            block_metadata = numpy.vstack((block_index_bytes, block_metadata))
+            metadata = numpy.vstack((metadata, block_metadata))
             
             new_image[:, j:bottom, i:right] = new_block
             
@@ -76,7 +76,7 @@ def perturb(target, source, block_width):
         error = "Metadata is larger than the desired padded length"
     
     padding = numpy.zeroes(desired_metadata_length - metadata.length() - 3, 1)
-    metadata = [numpy.transpose(metadata), metadata, padding]
+    metadata = #[numpy.transpose(metadata), metadata, padding]
     
     f = open('metadata.bin', 'w')
     f.write(metadata)
@@ -95,7 +95,7 @@ def perturb(target, source, block_width):
     
     #Pad metadata so it can fit in a rectangle at the bottom of the image
     padding_length = (metadata.size - 7) % (img_width * 3)
-    metadata = (metadata, numpy.zeroes(padding_len + 7).astype(uint8))
+    metadata = np.vstack((metadata, numpy.zeroes(padding_len + 7))).astype(uint8))
     
     #Serialize block block_width and padding length into two bytes
     block_width_16 = numpy.uint16(block_width_16)

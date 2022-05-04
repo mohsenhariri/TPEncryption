@@ -8,10 +8,11 @@ def reverse_perturbation(image_with_metadata):
     
     end = img_height - 1
     metadata_header = image_with_metadata[3, end - 6: end, img_width - 1]
-    img_height = 
-    block_width = 
+    end = metadata_header.len - 1
+    img_height = metadata_header[end - 1:end].astype(numpy.uint32)
+    block_width = metadata_header[end - 3:end - 2].astype(numpy.uint32)
     remain_len = metadata_header[metadata_header.len - 4].astype(numpy.uint32)
-    padding_length = 
+    padding_length = metadata_header[end - 6:end - 5].astype(numpy.uint32)
     
     image = image_with_metadata[:, 0: img_height - 1, :]
     
@@ -34,7 +35,7 @@ def reverse_perturbation(image_with_metadata):
     
     #remove the padding
     metadata = metadata.astype(numpy.uint8)
-    metadata_length = 
+    metadata_length = metadata[0:3].astype(numpy.uint32)
     metadata = metadata[3:3 + metadata_length - 1]
     
     metadata = numpy.reshape(metadata, (-1, 3))
@@ -54,7 +55,7 @@ def reverse_perturbation(image_with_metadata):
     
     while idx <= metadata.len:
         block_idx = metadata[idx:idx + block_index_length - 1]
-        block_idx = 
+        block_idx = numpy.vstack((block_idx, numpy.zeroes(4 - block_index_length, 1))).astype(numpy.uint8)
         block_idx = block_idx.astype(numpy.uint32)
         
         idx += block_index_length
@@ -70,13 +71,13 @@ def reverse_perturbation(image_with_metadata):
         #Convert remainder to integer. We have to first pad each remainder
         #to 4 bytes, and then cast to uint32.
         remain = metadata[idx + 1:idx + remain_len]
-        remain = 
+        remain = numpy.vstack((remain, numpy.zeroes(4 - remain_len, 3))).astype(numpy.uint8)
         remain = remain[:].astype(numpy.uint32)
         
         idx = idx + remain_len + 1
         
         num_addt_pixels = metadata[idx:idx + remain_len - 1]
-        num_addt_pixels = 
+        num_addt_pixels = numpy.vstack((num_addt_pixels, numpy.zeroes(4 - remain_len, 1))).astype(numpy.uint8)
         num_addt_pixels = num_addt_pixels.astype(numpy.uint32)
         
         idx += remain_len
@@ -90,7 +91,7 @@ def reverse_perturbation(image_with_metadata):
             adjustments = numpy.reshape(adjustments, (3, 1 + remain_len, -1))
             
             indices = adjustments[:, 0:remain_len - 1, :]
-            indices = 
+            indices = numpy.vstack((indices, numpy.zeroes(3, 4 - remain_len, numpy.size(indices, 1))))
             indices = indices[:].astype(numpy.uint32)
             indices = numpy.reshape(indices, (-1, 3))
             
@@ -109,6 +110,6 @@ def reverse_perturbation(image_with_metadata):
                 block_offset += 1
         
         block = reverse_perturb_block(block, rounds, remain, indices, borrows, block_offset)
-        image[:, top:bottom, left:right] = block
+        image[:, top:bottom, left:right] = block.astype(numpy.uint8)
         
     return image      

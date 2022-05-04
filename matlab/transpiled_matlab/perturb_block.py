@@ -155,7 +155,8 @@ def perturb(target, source, remainder, offset):
     addt_pixels = length / (1 + remain_len)
     addt_pixels = addt_pixels.astype(numpy.uint8)
     addt_pixels = addt_pixels[:remain_len]
-    metadata[1 + remain_len:2 * remain_len, :] = [numpy.transpose(addt_pixels), numpy.transpose(addt_pixels), numpy.transpose(addt_pixels)]
+    temp = numpy.transpose(addt_pixels)
+    metadata[1 + remain_len:2 * remain_len, :] = numpy.vstack((temp, temp, temp))
     
     new_block = new_block.astype(numpy.uint8)
     
