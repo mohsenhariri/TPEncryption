@@ -14,9 +14,23 @@ endif
 URL := $(PROTOCOL)://$(HOST):$(PORT)
 
 
+%: # https://www.gnu.org/software/make/manual/make.html#Automatic-Variables 
+		@:
+
 clean:
 		rm -rf $(DIST)/*
 
+npmid:
+		npm i
+
+npmip:
+		npm ci
+
+setup:
+		if [ ! -d $(path_input_img) ]; then mkdir $(path_input_img); fi
+		# if [ ! -d $(path_out_encrypted) ]; then mkdir $(path_out_encrypted); fi
 
 dev-server:
 		node main
+
+

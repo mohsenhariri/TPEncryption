@@ -4,11 +4,12 @@ import filter from "async/filter.js";
 
 import fsp from "fs/promises";
 
-const IMGS_PATH = "./imgs";
-const ENCRYPTED_IMGS_PATH = IMGS_PATH + "/encrypted";
+const IMGS_PATH = process.env.path_input_img
+
+const ENCRYPTED_IMGS_PATH = process.env.path_out_encrypted
 
 const NUMBER_OF_ITERATION = 1;
-const BLOCK_SIZE = 50;
+const BLOCK_SIZE = process.env.block_size
 const KEY = "DpdZPaQ[lkF";
 
 async function dirValidate() {
@@ -77,7 +78,9 @@ async function start() {
       });
     });
   } catch (err) {
-    console.log("Err in start");
+    console.log("Err in start", err);
+  } finally {
+    console.log('done!')
   }
 }
 

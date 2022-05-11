@@ -12,7 +12,7 @@
     "url": "git+https://github.com/mohsenhariri/TPEncryption.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mohsen Hariri <mhariri68@gmail.com>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mohsenhariri/TPEncryption/issues"
@@ -21,5 +21,6 @@
     "async": "^3.2.3",
     "jimp": "^0.16.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "homepage": "https://github.com/mohsenhariri/TPEncryption#readme"
 }
