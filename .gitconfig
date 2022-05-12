@@ -1,0 +1,4 @@
+[init]
+defaultBranch = gh-pages
+
+#git init --initial-branch=gh-pages
