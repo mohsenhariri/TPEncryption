@@ -1,5 +1,8 @@
 PATH := node_modules/.bin:${PATH}
 .PHONY: all dev clean dev
+#!/usr/bin/env node
+NODE := /usr/bin/node
+
 include .env.dev
 export
 
@@ -31,6 +34,6 @@ setup:
 		# if [ ! -d $(path_out_encrypted) ]; then mkdir $(path_out_encrypted); fi
 
 dev-server:
-		node main
+		$(NODE) main
 
 

@@ -1,10 +1,15 @@
 PATH := node_modules/.bin:${PATH}
-.PHONY: all dev clean dev
+.PHONY: all dev clean dev pyserve manifest
 include .env.dev
 export
 
+#!/usr/bin/env node
+NODE := /usr/bin/node
+
+
 SRC := ./src
 DIST := ./dist
+PY := python3
 
 ifeq ($(SSL), true)
 PROTOCOL := HTTPS
@@ -14,7 +19,11 @@ endif
 URL := $(PROTOCOL)://$(HOST):$(PORT)
 
 cert:
-		openssl req -x509 -new -config ./certs/openssl.conf -out ./certs/cert.pem -keyout ./certs/key.pem
+		if [ ! -d "./certs" ]; then mkdir ./certs; fi
+		if [ -f "./certs/openssl.conf" ] ; then \
+		openssl req -x509 -new -config ./certs/openssl.conf -out ./certs/cert.pem -keyout ./certs/key.pem ;  else \
+		openssl req -x509 -nodes -newkey rsa:4096 -out ./certs/cert.pem -keyout ./certs/key.pem -sha256 -days 365 ;fi
+
 
 clean:
 		rm -rf $(DIST)/*
@@ -22,8 +31,8 @@ clean:
 manifest:
 		cp -r $(SRC)/manifest/* $(DIST)
 
-dev-server:
-		node server/main
+dev:
+		webpack serve --config webpack.dev.js
 
 dev-disk:
 		export writeToDisk="true" && webpack serve --config webpack.dev.js
@@ -34,6 +43,9 @@ build-dev: clean manifest
 build-prod: clean manifest
 		webpack --config webpack.prod.js
 		
+
+pyserve:
+		$(PY) -m http.server --directory $(DIST)
 
 nodeserve:
 		http-server $(DIST) -p $(PORT)
