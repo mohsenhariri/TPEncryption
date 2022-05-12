@@ -1,4 +1,6 @@
 .vscode
 node_modules
 server/imgs
-mohsen-notes.md
+
+web/dist/*
+!web/dist/.gitkeep
