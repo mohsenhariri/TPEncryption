@@ -63,4 +63,5 @@ class AesRndNumGen {
     return indices
   }
 }
+
 export default AesRndNumGen

@@ -1,4 +1,5 @@
-import TPEncryption from './tpencryption.js'
+import TPEncryption from './TPEncryption.js'
+import Jimp from 'jimp'
 
 import filter from 'async/filter.js'
 
@@ -38,16 +39,16 @@ async function start() {
       let result_file_path = `${ENCRYPTED_IMGS_PATH}/${fileName}`
 
       let t = new TPEncryption(file_path, KEY)
-      await t.init()
-      t.encrypt(
-        NUMBER_OF_ITERATION,
-        BLOCK_SIZE,
-        result_file_path,
-        function (time) {
-          counter += 1
-          console.log(`encrypted in ${time} ms.\n`)
-        }
-      )
+      const dataImg = await Jimp.read(file_path)
+
+      t.init(dataImg)
+      t.encrypt(NUMBER_OF_ITERATION, BLOCK_SIZE, (time) => {
+        counter += 1
+        console.log(`encrypted in ${time} ms.\n`)
+      })
+
+      const outSrc = t.outImageData()
+      outSrc.write(result_file_path)
     })
   } catch (err) {
     console.log('Err in start', err)

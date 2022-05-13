@@ -1,8 +1,7 @@
-import AesRndNumGen from './aes-rnd.js'
-import Jimp from 'jimp'
+import AesRndNumGen from './AesRndNumGen.js'
 
 class TPEncryption {
-  constructor(imgPath, key) {
+  constructor(srcPath, key) {
     this.key = key
     this.mat_r = []
     this.mat_g = []
@@ -11,28 +10,16 @@ class TPEncryption {
     this.w = 0
     this.h = 0
     this.data = []
-    this.src_path = imgPath
+    this.src_path = srcPath
   }
-  async init() {
-    try {
-      const dataImg = await Jimp.read(this.src_path)
-      // console.log('TPEncryption image data', dataImg)
-
-      this.dataImg = dataImg
-
-      this.image = dataImg
-      const image = dataImg
-      this.w = image.bitmap.width
-      this.h = image.bitmap.height
-      this.data = image.bitmap.data
-      //   // const imageBitmapPromise = createImageBitmap(image);
-      // })
-    } catch (err) {
-      console.log('TPE init', err)
-    }
+  init(dataImg) {
+    this.image = dataImg
+    this.w = dataImg.bitmap.width
+    this.h = dataImg.bitmap.height
+    this.data = dataImg.bitmap.data
   }
 
-  encrypt(num_of_iter, block_size, result_file_path, callback) {
+  encrypt(num_of_iter, block_size, callback) {
     this.block_size = block_size
 
     let m = parseInt(Math.floor(this.w / block_size)),
@@ -185,9 +172,13 @@ class TPEncryption {
         }
       }
     }
+
     let timeOfEnd = new Date().getTime()
-    this.image.write(result_file_path)
     callback(timeOfEnd - timeOfStart)
+  }
+
+  outImageData() {
+    return this.image
   }
 }
 
