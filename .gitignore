@@ -1,6 +1,7 @@
 .vscode
 node_modules
 server/imgs
+*.backup
 
 web/dist/*
 !web/dist/.gitkeep

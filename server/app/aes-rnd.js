@@ -7,7 +7,6 @@ const iv = crypto.randomBytes(16)
 
 class AesRndNumGen {
   constructor(key, totalNeed) {
-   
     this.ctr = 0
     this.data = []
 
@@ -18,13 +17,11 @@ class AesRndNumGen {
   }
 
   next() {
-  
     this.ctr += 1
     return this.data[this.ctr - 1]
   }
 
   getNewCouple(p, q, enc) {
-  
     let rnd = this.next()
     let sum = p + q
     if (sum <= 255) {
@@ -49,7 +46,6 @@ class AesRndNumGen {
   }
 
   getNewPermutation(block_size) {
-   
     let permutation = []
     for (let z = 0; z < block_size * block_size; z += 1) {
       permutation.push(this.next())
