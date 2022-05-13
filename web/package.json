@@ -8,7 +8,6 @@
   "keywords": [],
   "author": "Mohsen Hariri <mhariri68@gmail.com>",
   "license": "GPL-3.0",
-  "description": "",
   "devDependencies": {
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
@@ -18,5 +17,6 @@
     "webpack-dev-server": "^4.9.0",
     "webpack-merge": "^5.8.0",
     "webpack-plugin": "^1.0.5"
-  }
+  },
+  "description": ""
 }

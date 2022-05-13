@@ -19,7 +19,7 @@ class TPEncryption {
     this.data = dataImg.bitmap.data
   }
 
-  encrypt(num_of_iter, block_size, callback) {
+  async encrypt(num_of_iter, block_size, callback) {
     this.block_size = block_size
 
     let m = parseInt(Math.floor(this.w / block_size)),
@@ -40,7 +40,10 @@ class TPEncryption {
 
     let timeOfStart = new Date().getTime()
     let sAesRndNumGen = new AesRndNumGen(this.key, totalRndForSubstitution)
+    await sAesRndNumGen.init()
     let pAesRndNumGen = new AesRndNumGen(this.key, totalRndForPermutation)
+    await pAesRndNumGen.init()
+
     // let timeOfEndOfAes = new Date().getTime()
     for (let ccc = 0; ccc < num_of_iter; ccc += 1) {
       // substitution
