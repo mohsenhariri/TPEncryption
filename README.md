@@ -1,6 +1,11 @@
 # TPEncryption
 
-# Clinet-side
+## Clinet-side
+
+
+
+![Web preview](web.png)
+
 
 ```
 cd web
@@ -8,7 +13,7 @@ npm ci
 make dev
 ```
 
-# Server-side
+## Server-side
 
 ```
 cd server

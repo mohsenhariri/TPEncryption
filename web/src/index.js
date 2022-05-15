@@ -8,6 +8,8 @@ const showImage = (id, src) => {
   imgDiv.style.display = 'block'
 }
 
+const status = document.getElementById('status')
+
 const iteration = document.getElementById('iteration')
 const block = document.getElementById('block')
 
@@ -20,6 +22,8 @@ function updateValue(e) {
 
 const doEncrypt = async (src) => {
   try {
+    status.innerText = 'Waiting ...'
+
     const NUMBER_OF_ITERATION = iteration.value || 1
     const BLOCK_SIZE = block.value || 10
     const KEY = 'V7a6kjqDeQUBNAev118sjOp3fbv_RMsHorWHkzuDCsM'
@@ -44,6 +48,7 @@ const doEncrypt = async (src) => {
       if (err) console.log('Jimp output', err)
 
       showImage('img-enc', res)
+      status.innerText = 'Finished.'
     })
   } catch (err) {
     console.log('Do Encrypt', err)
