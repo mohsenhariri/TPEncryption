@@ -16,7 +16,26 @@
           <img id="img-orig" />
           <img id="img-enc" />
         </div>
-        <label for="input">Upload Image</label>
+
+        <div class="args">
+          <label for="block"> Block Size </label>
+          <input
+            type="number"
+            id="block"
+          />
+          <label for="block"> Iteration Number </label>
+          <input
+            type="number"
+            id="iteration"
+          />
+        </div>
+
+        <label
+          id="moh"
+          for="input"
+        >
+          Upload Image
+        </label>
         <input
           type="file"
           id="input"
